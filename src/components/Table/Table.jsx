@@ -15,11 +15,13 @@ const Table = ({basicMass}) => {
 
     useEffect(() => {
         filtering();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filterColor, filterSpeed, filterType, basicMass]);
 
     // Создание списка типов транспорта для фильтрации
     useEffect(() => {
         setTimeout(createTypeFilter, 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transport]);
 
     // Функция фильтрации по всем полям
@@ -48,9 +50,9 @@ const Table = ({basicMass}) => {
     const createTypeFilter = () => {
         const mass = (typeList.length) ? typeList.slice(0) : ["all"];
 
-        for (let e of basicMass) {
+        basicMass.forEach(e => {
             if (!mass.includes(e.class)) mass.push(e.class);
-        }
+        });
 
         setTypeList(mass);
     };

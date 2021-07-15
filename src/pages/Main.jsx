@@ -23,6 +23,7 @@ const Main = () => {
         return () => {
             clearInterval(timer);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [numberRecords]);
 
     // Функция выдачи одной записи
