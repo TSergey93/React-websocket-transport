@@ -3,10 +3,10 @@ import {UPDATE, CLEAR} from "./types";
 // Функция обновления данных
 export const UpdateTransport = data => ({
     type: UPDATE,
-    data
+    payload: data
 });
 
 // Функция очистки данных
-export const clearTransport = data => ({
+export const clearTransport = () => ({
     type: CLEAR
 });

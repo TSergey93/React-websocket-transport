@@ -16,17 +16,17 @@ const Main = () => {
         state => state.transport.transport
     );
 
-    // Функция постоянного получения данных о транспорте
+    // Функция создания таймера и пересоздание его при смене количество строк
     useEffect(() => {
-        setTimeout(setTransport, 1500);
-    }, [transport, numberRecords]);
+        const timer = setInterval(() => setTransport(numberRecords), 1500);
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [numberRecords]);
 
     // Функция выдачи одной записи
-    const setTransport = () => {
-        if (transport.length < numberRecords) {
-            dispatch(UpdateTransport({transport: getMock()}));
-        }
-    };
+    const setTransport = maxRows => dispatch(UpdateTransport({transport: getMock(), maxRecords: maxRows}));
 
     return (
         <>

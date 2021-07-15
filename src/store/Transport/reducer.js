@@ -7,13 +7,18 @@ let initialState = {
 export const transportReducer = (state = initialState, action) => {
     switch (action.type) {
         case UPDATE: {
+            const tmp = [action.payload.transport, ...state.transport];
+
+            if (tmp.length > action.payload.maxRecords) tmp.length = action.payload.maxRecords;
+
             return {
                 ...state,
-                transport: [...state.transport, action.data.transport]
+                transport: tmp
             }
         }
         case CLEAR: {
             return {
+                ...state,
                 transport: []
             }
         }

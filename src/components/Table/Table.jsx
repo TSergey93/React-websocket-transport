@@ -48,9 +48,9 @@ const Table = ({basicMass}) => {
     const createTypeFilter = () => {
         const mass = (typeList.length) ? typeList.slice(0) : ["all"];
 
-        basicMass.map(e => {
+        for (let e of basicMass) {
             if (!mass.includes(e.class)) mass.push(e.class);
-        });
+        }
 
         setTypeList(mass);
     };
@@ -107,8 +107,11 @@ const Table = ({basicMass}) => {
                 </tr>
                 </thead>
                 <tbody>
-                    {(!transport.length) ? <td colSpan="3" className={classes.dataNotFound}>Данные отсутствуют</td>
-                        : transport.map(e => <TableRow data={e} renameFilterValue={renameFilterValue} key={e.deviceId}/>)}
+                    {(!transport.length) ? (
+                        <tr>
+                            <td colSpan="3" className={classes.dataNotFound}>Данные отсутствуют</td>
+                        </tr>
+                    ) : transport.map(e => <TableRow data={e} renameFilterValue={renameFilterValue} key={e.deviceId}/>)}
                 </tbody>
             </table>
         </div>
