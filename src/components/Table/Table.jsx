@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
 
 import {useStyles} from "./Table.styles";
+import theme from "../../themes/theme";
 
 const Table = ({basicMass}) => {
-    const classes = useStyles();
+    const classes = useStyles(theme);
 
     const [transport, setTransport] = useState(basicMass); // массив транспорта
     const [typeList, setTypeList] = useState([]); // список типов транспорта для фильтрации
+    const [visibilityRow, setVisibilityRow] = useState(false); // красивый переход строк
     // Поля для фильтрации
     const [filterColor, setFilterColor] = useState("");
     const [filterSpeed, setFilterSpeed] = useState({from: "", to: ""});
@@ -23,6 +25,15 @@ const Table = ({basicMass}) => {
         setTimeout(createTypeFilter, 0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [transport]);
+
+    // Функция смены подсветки строк таблицы
+    useEffect(() => {
+        if (!isFilter()) setVisibilityRow(!visibilityRow);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [transport]);
+
+    // Функция проверяет, применён ли фильтр?
+    const isFilter = () => (!(!filterColor && filterType === "all" && !filterSpeed.from && !filterSpeed.to));
 
     // Функция фильтрации по всем полям
     const filtering = () => {
@@ -79,36 +90,36 @@ const Table = ({basicMass}) => {
                 <thead>
                 <tr>
                     <th>Тип
-                        <div className={classes.selectWrapper}>
-                            <div className={`${classes.select} ${(showFilterOverlay) ? "open" : ""}`}
+                        <div className={classes.filterTypeWrapper}>
+                            <div className={`${classes.filterType} ${(showFilterOverlay) ? "open" : ""}`}
                                  onClick={() => {setFilterOverlay(true)}}>{renameFilterValue(filterType)}</div>
-                            <div className={`${classes.selectIcon} status-icon`}/>
-                            <div className={`${classes.selectList} status-list`}>
+                            <div className={`${classes.filterTypeIcon} status-icon`}/>
+                            <div className={`${classes.filterTypeList} status-list`}>
                                 {typeList.map(text => (
-                                    <div value={text} className={`${classes.selectElement} ${(filterType === text) ? "active" : ""}`}
+                                    <div value={text} className={`${classes.filterTypeElement} ${(filterType === text) ? "active" : ""}`}
                                          key={Math.random()} onClick={e => selectedType(e.target, text)}>{renameFilterValue(text)}
                                     </div>
                                     )
                                 )}
                             </div>
-                            <div className={`${classes.selectOverlay} status-overlay`}
+                            <div className={`${classes.filterTypeOverlay} status-overlay`}
                                  onClick={() => {setFilterOverlay(false)}}/>
                         </div>
                     </th>
                     <th>Цвет
-                        <input type="text" className={classes.filterText} placeholder="Введите цвет"
+                        <input type="text" className={classes.filterColor} placeholder="Введите цвет"
                                onChange={e => setFilterColor(e.target.value.trim())}/>
                     </th>
                     <th>
                         <span className={classes.speedText}>Скорость</span>
-                        <input type="number" className={classes.filterNumber} placeholder="от"
+                        <input type="number" className={classes.filterSpeed} placeholder="от"
                                onChange={e => setFilterSpeed({from: e.target.value.trim(), to: filterSpeed.to})}/>
-                        <input type="number" className={classes.filterNumber} placeholder="до"
+                        <input type="number" className={classes.filterSpeed} placeholder="до"
                                onChange={e => setFilterSpeed({from: filterSpeed.from, to: e.target.value.trim()})}/>
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody className={(transport.length && visibilityRow) ? classes.even : ""}>
                     {(!transport.length) ? (
                         <tr>
                             <td colSpan="3" className={classes.dataNotFound}>Данные отсутствуют</td>

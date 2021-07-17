@@ -2,22 +2,29 @@ import {createStyles, makeStyles} from "@material-ui/core";
 
 import selectIcon from "../../img/select_row_icon.svg"
 
-export const useStyles = makeStyles(() =>
+export const useStyles = makeStyles(theme =>
     createStyles({
         wrapper: {
             minWidth: 720,
-            margin: "80px 25px 0"
+            boxSizing: "border-box",
+            padding: "80px 25px 0",
+
+            [theme.breakpoints.down(theme.breakpoints.values.tablet)]: {
+                minWidth: "auto",
+                padding: "13px 0 0"
+            }
         },
         table: {
             width: "100%",
             borderCollapse: "collapse",
 
             "& tr": {
+                backgroundColor: theme.palette.primary.white,
                 borderBottom: "1px solid #111"
             },
 
             "& tbody tr:nth-of-type(even)": {
-                backgroundColor: "#f5f6f7"
+                backgroundColor: theme.palette.secondary.main
             },
 
             "& tfoot tr": {
@@ -27,32 +34,45 @@ export const useStyles = makeStyles(() =>
             "& th, & td": {
                 width: "33%",
                 padding: 10,
-                textAlign: "center"
+                textAlign: "center",
+
+                [theme.breakpoints.down(theme.breakpoints.values.phablet)]: {
+                    padding: "10px 5px"
+                }
             }
         },
-        filterText: {
+        even: {
+            "& tr": {
+                backgroundColor: `${theme.palette.secondary.main} !important`
+            },
+
+            "& tr:nth-of-type(even)": {
+                backgroundColor: `${theme.palette.primary.white} !important`
+            },
+        },
+        filterColor: {
             width: "100%",
             boxSizing: "border-box",
             marginTop: 5,
             padding: 5,
-            border: "2px solid rgba(99, 175, 105, 0.5)",
+            border: `2px solid ${theme.palette.primary.mainOpacity}`,
             borderRadius: 10,
             outline: "none",
 
             "&:focus": {
-                borderColor: "#63af69"
+                borderColor: theme.palette.primary.main
             }
         },
         speedText: {
             display: "inline-block",
             width: "100%"
         },
-        filterNumber: {
+        filterSpeed: {
             width: 35,
             margin: "5px 10px 0",
             padding: 5,
             textAlign: "center",
-            border: "2px solid rgba(99, 175, 105, 0.5)",
+            border: `2px solid ${theme.palette.primary.mainOpacity}`,
             outline: "none",
             borderRadius: 5,
             MozAppearance: "textfield",
@@ -63,25 +83,38 @@ export const useStyles = makeStyles(() =>
             },
 
             "&:focus": {
-                borderColor: "#63af69"
+                borderColor: theme.palette.primary.main
+            },
+
+            [theme.breakpoints.down(theme.breakpoints.values.phone)]: {
+                margin: "5px 5px 0",
+                padding: "5px 2px",
+
+                "&:first-of-Type": {
+                    marginRight: 2
+                },
+
+                "&:last-of-Type": {
+                    marginLeft: 2
+                }
             }
         },
-        selectWrapper: {
+        filterTypeWrapper: {
             position: "relative"
         },
-        select: {
+        filterType: {
             width: "100%",
             boxSizing: "border-box",
             marginTop: 5,
             padding: "2px 0",
             fontWeight: 400,
-            border: "2px solid rgba(99, 175, 105, 0.5)",
+            border: `2px solid ${theme.palette.primary.mainOpacity}`,
             borderRadius: "10px 10px 0 0",
             outline: "none",
             cursor: "pointer",
 
             "&.open": {
-                borderColor: "#63af69"
+                borderColor: theme.palette.primary.main
             },
 
             "&.open ~ .status-icon": {
@@ -96,7 +129,7 @@ export const useStyles = makeStyles(() =>
                 display: "block"
             }
         },
-        selectIcon: {
+        filterTypeIcon: {
             width: 18,
             height: 11,
             position: "absolute",
@@ -106,7 +139,7 @@ export const useStyles = makeStyles(() =>
             transform: "translateY(-50%)",
             pointerEvents: "none"
         },
-        selectList: {
+        filterTypeList: {
             display: "none",
             flexDirection: "column",
             boxSizing: "border-box",
@@ -114,21 +147,21 @@ export const useStyles = makeStyles(() =>
             position: "absolute",
             top: 29,
             padding: "5px 0",
-            backgroundColor: "#fff",
-            border: "1px solid #63af69",
+            backgroundColor: theme.palette.primary.white,
+            border: `1px solid ${theme.palette.primary.main}`,
             borderRadius: "0 0 10px 10px",
             zIndex: 15
         },
-        selectElement: {
+        filterTypeElement: {
             padding: "4px 0",
             fontWeight: 400,
             cursor: "pointer",
 
             "&.active": {
-                color: "#63af69"
+                color: theme.palette.primary.main
             }
         },
-        selectOverlay: {
+        filterTypeOverlay: {
             display: "none",
             position: "fixed",
             top: 0,
